@@ -115,15 +115,15 @@ testUtils.createTestButton("Test Eliminar Sample Dinámico", async (btn) => {
    
    const samples = await responseGet.json();
 
-   // Validar Existencia de elementos en la respuesta
-   if (!samples || samples.length === 0) {
+   // CORRECCIÓN: Validar que sea un array y tenga elementos
+   if (!samples || !Array.isArray(samples) || samples.length === 0) {
        console.warn("Se debe subir un sample primero: la lista está vacía.");
-       testUtils.log("Lista vacía. Sube un sample manualmente primero.");
+       testUtils.log("Lista vacía o inválida. Sube un sample manualmente primero.");
        return; 
    }
 
-   // Extraemos el id usando la propiedad indicada en la tutoría
-   const targetId = samples.id;
+   // CORRECCIÓN: Extraemos el id usando el índice [0] del primer elemento
+   const targetId = samples[0].id;
    testUtils.log(`Intentando borrar el ID específico: ${targetId}`);
 
    // Ejecutar Eliminación mediante verbo HTTP DELETE
